@@ -1,0 +1,8 @@
+package com.example.qingge_springboot.mapper;
+
+import com.example.qingge_springboot.entity.{entityName};
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+
+public interface {entityName}Mapper extends BaseMapper<{entityName}> {
+
+}

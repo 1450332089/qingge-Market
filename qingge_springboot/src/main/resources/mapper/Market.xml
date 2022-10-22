@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.qingge_springboot.mapper.MarketMapper">
+    <update id="uploadGood" useGeneratedKeys="true" keyProperty="id">
+        insert into market_good(user_id, good_name, description, img, price,state)
+        values (#{userId},#{goodName},#{description},#{img},#{price},#{state})
+    </update>
+
+
+    <select id="getMessageByGoodId" resultType="com.example.qingge_springboot.entity.dto.MessageDTO">
+        SELECT mm.*,avatar_url as avatar ,nickname FROM market_message as mm,sys_user as user
+        WHERE mm.good_id = #{goodId} AND mm.user_id = user.id
+        ORDER BY create_time DESC
+    </select>
+</mapper>

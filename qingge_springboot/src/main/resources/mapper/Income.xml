@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.qingge_springboot.mapper.IncomeMapper">
+    <resultMap id="chartMap" type="hashmap">
+        <result property="categoryId" column="category_id"></result>
+        <result property="categoryName" column="category_name"></result>
+        <result property="categoryIncome" column="category_income"></result>
+    </resultMap>
+    <select id="selectCategoryIncome" resultMap="chartMap">
+        select  category_id,category.name as category_name,SUM(sale_money) as category_income  from goods,category
+        where goods.category_id = category.id GROUP BY category_id
+    </select>
+    <select id="selectSumIncome" resultType="decimal">
+        select sum(sale_money)  from goods
+    </select>
+    <select id="getDayIncome" resultType="java.math.BigDecimal">
+        SELECT sum(total_price) FROM `t_order` WHERE state != '待付款' AND create_time >= #{thisDay} AND create_time &lt; #{nextDay}
+    </select>
+</mapper>

@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: org.mybatis.spring.boot:mybatis-spring-boot-autoconfigure:2.2.2">
+    <CLASSES>
+      <root url="jar://D:/Environment/apache-maven-3.8.3/maven_repo/org/mybatis/spring/boot/mybatis-spring-boot-autoconfigure/2.2.2/mybatis-spring-boot-autoconfigure-2.2.2.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://D:/Environment/apache-maven-3.8.3/maven_repo/org/mybatis/spring/boot/mybatis-spring-boot-autoconfigure/2.2.2/mybatis-spring-boot-autoconfigure-2.2.2-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://D:/Environment/apache-maven-3.8.3/maven_repo/org/mybatis/spring/boot/mybatis-spring-boot-autoconfigure/2.2.2/mybatis-spring-boot-autoconfigure-2.2.2-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

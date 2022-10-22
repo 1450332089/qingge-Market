@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/qingge.iml" filepath="$PROJECT_DIR$/.idea/qingge.iml" />
+      <module fileurl="file://$PROJECT_DIR$/qingge_springboot/qingge_springboot.iml" filepath="$PROJECT_DIR$/qingge_springboot/qingge_springboot.iml" />
+    </modules>
+  </component>
+</project>

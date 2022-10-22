@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.qingge_springboot.mapper.OrderMapper">
+    <resultMap id="goodMap" type="Map">
+        <result property="goodId" column="good_id"></result>
+        <result property="goodName" column="good_name"></result>
+        <result property="count" column="count"></result>
+        <result property="price" column="price"></result>
+        <result property="discount" column="discount"></result>
+        <result property="standard" column="standard"></result>
+        <result property="img" column="imgs"></result>
+    </resultMap>
+    <select id="selectByUserId" parameterType="int" resultType="java.util.HashMap">
+        SELECT o.*, og.good_id,goods.`name` as good_name, og.count, og.standard, goods.imgs
+        FROM t_order o, order_goods og ,goods
+        WHERE o.id = og.order_id AND o.user_id = #{userId} AND og.good_id = goods.id
+        ORDER BY o.create_time DESC
+    </select>
+    <select id="selectByOrderNo" parameterType="String" resultMap="goodMap">
+        SELECT  og.good_id,goods.`name` as good_name,  og.standard,gs.price ,goods.discount ,og.count, goods.imgs
+        FROM t_order o, order_goods og ,goods,good_standard gs
+        WHERE o.id = og.order_id AND o.order_no = #{orderNo} AND og.good_id = goods.id
+          AND gs.good_id = og.good_id AND gs.`value` = standard
+    </select>
+</mapper>

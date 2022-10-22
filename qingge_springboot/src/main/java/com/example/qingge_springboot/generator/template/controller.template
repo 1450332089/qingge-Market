@@ -1,0 +1,92 @@
+package com.example.qingge_springboot.controller;
+
+import cn.hutool.core.util.StrUtil;
+import com.auth0.jwt.JWT;
+import com.example.qingge_springboot.common.Result;
+import com.example.qingge_springboot.service.UserService;
+import com.example.qingge_springboot.entity.{entityName};
+import com.example.qingge_springboot.service.{entityName}Service;
+import com.example.qingge_springboot.entity.User;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/{lowerName}")
+public class {entityName}Controller {
+    @Resource
+    private {entityName}Service {lowerName}Service;
+    @Resource
+    private HttpServletRequest request;
+    @Resource
+    private UserService userService;
+
+    public User getUser() {
+        String token = request.getHeader("token");
+        String username = JWT.decode(token).getAudience().get(0);
+        return userService.getOne(Wrappers.<User>lambdaQuery().eq(User::getUsername, username));
+    }
+
+    /*
+    查询
+    */
+    @GetMapping("/{id}")
+    public Result findById(@PathVariable Long id) {
+        return Result.success({lowerName}Service.getById(id));
+    }
+
+    @GetMapping
+    public Result findAll() {
+        List<{entityName}> list = {lowerName}Service.list();
+        return Result.success(list);
+    }
+
+    /*
+    分页查询
+    */
+    @GetMapping("/page")
+    public Result findPage(@RequestParam(required = false, defaultValue = "") String name,
+                                                @RequestParam(required = false, defaultValue = "1") Integer pageNum,
+                                                @RequestParam(required = false, defaultValue = "10") Integer pageSize) {
+        LambdaQueryWrapper<{entityName}> query = Wrappers.<{entityName}>lambdaQuery().orderByDesc({entityName}::getId);
+        if (StrUtil.isNotBlank(name)) {
+            query.like({entityName}::getName, name);
+        }
+        IPage<{entityName}> page = {lowerName}Service.page(new Page<>(pageNum, pageSize), query);
+        return Result.success(page);
+    }
+    /*
+    保存
+    */
+    @PostMapping
+    public Result save(@RequestBody {entityName} {lowerName}) {
+        {lowerName}Service.saveOrUpdate({lowerName});
+        return Result.success();
+    }
+
+    @PutMapping
+    public Result update(@RequestBody {entityName} {lowerName}) {
+        {lowerName}Service.updateById({lowerName});
+        return Result.success();
+    }
+
+    /*
+    删除
+    */
+    @DeleteMapping("/{id}")
+    public Result delete(@PathVariable Long id) {
+        {lowerName}Service.removeById(id);
+        return Result.success();
+    }
+
+
+
+
+
+}

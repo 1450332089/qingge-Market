@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.qingge_springboot.mapper.IconMapper">
+    <resultMap id="IconCategoryMap" type="com.example.qingge_springboot.entity.Icon">
+        <id property="id" column="id"></id>
+        <result property="value" column="value"></result>
+        <collection property="categories" column="id" select="selectCategories"></collection>
+    </resultMap>
+    <select id="selectCategories" resultType="com.example.qingge_springboot.entity.Category">
+        SELECT category.* FROM icon_category LEFT JOIN category ON icon_category.category_id = category.id WHERE icon_category.icon_id = #{id}
+    </select>
+
+    <select id="getIconCategoryMapList" resultMap="IconCategoryMap">
+        select * from icon
+    </select>
+</mapper>

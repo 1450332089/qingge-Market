@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.qingge_springboot.mapper.GoodsMapper">
+    <insert id="insertGood" useGeneratedKeys="true" keyProperty="id">
+        insert into goods(name, description, discount, category_id, imgs) value (#{goods.name},#{goods.description},#{goods.discount},#{goods.categoryId},#{goods.imgs})
+    </insert>
+    <update id="saleGood">
+        update qingge.goods set sales = sales + #{count} ,sale_money = sale_money + #{money} where goods.id = #{id}
+    </update>
+
+
+    <select id="findAll" resultType="com.example.qingge_springboot.entity.Goods">
+        SELECT goods.*,MIN(good_standard.price) as price FROM `goods` LEFT JOIN good_standard on goods.id = good_standard.good_id  WHERE is_delete = 0 AND recommend = 1 GROUP BY id  ORDER BY price ASC
+    </select>
+</mapper>

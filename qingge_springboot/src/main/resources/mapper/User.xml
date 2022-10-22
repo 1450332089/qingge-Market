@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.qingge_springboot.mapper.UserMapper">
+
+<!--    <update id="update">-->
+<!--        update sys_user-->
+<!--        <set>-->
+<!--            <if test="username!=null">username = #{username},</if>-->
+<!--            <if test="nickname!=null">nickname = #{nickname},</if>-->
+<!--            <if test="email!=null">email = #{email},</if>-->
+<!--            <if test="phone!=null">phone = #{phone},</if>-->
+<!--            <if test="address!=null">address = #{address}</if>-->
+<!--        </set>-->
+<!--        where id = #{id}-->
+<!--    </update>-->
+<!-- &lt;!&ndash;查询人数&ndash;&gt;-->
+<!--    <select id="searchTotal" resultType="int">-->
+<!--        select count(*) from sys_user-->
+<!--        <where>-->
+<!--            <if test="username!=null and username!=''">username like concat('%',#{username},'%')</if>-->
+<!--            <if test="nickname!=null and nickname!=''">and nickname like concat('%',#{nickname},'%')</if>-->
+<!--        </where>-->
+<!--    </select>-->
+<!--&lt;!&ndash;查询用户列表&ndash;&gt;-->
+<!--    <select id="selectPage" resultType="com.example.qingge_springboot.entity.User">-->
+<!--        select * from sys_user-->
+<!--        <where>-->
+<!--            <if test="username!=null and username!=''">username like concat('%',#{username},'%')</if>-->
+<!--            <if test="nickname!=null and nickname!=''">and nickname like concat('%',#{nickname},'%')</if>-->
+<!--        </where>-->
+<!--        limit #{index},#{pageSize}-->
+<!--    </select>-->
+</mapper>
