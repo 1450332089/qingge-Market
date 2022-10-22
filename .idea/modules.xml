@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/qingge.iml" filepath="$PROJECT_DIR$/.idea/qingge.iml" />
+      <module fileurl="file://$PROJECT_DIR$/qingge-vue/qingge-vue.iml" filepath="$PROJECT_DIR$/qingge-vue/qingge-vue.iml" />
       <module fileurl="file://$PROJECT_DIR$/qingge_springboot/qingge_springboot.iml" filepath="$PROJECT_DIR$/qingge_springboot/qingge_springboot.iml" />
     </modules>
   </component>

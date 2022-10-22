@@ -2,21 +2,10 @@ package com.example.qingge_springboot;
 
 import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.DateUtil;
-import cn.hutool.core.util.ArrayUtil;
-import com.example.qingge_springboot.controller.UserController;
-import com.example.qingge_springboot.entity.User;
-import com.example.qingge_springboot.service.AvatarService;
-import com.example.qingge_springboot.service.UserService;
-import io.swagger.models.auth.In;
-import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.util.ClassUtils;
 
-import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 @SpringBootTest
 class QinggeSpringbootApplicationTests {
