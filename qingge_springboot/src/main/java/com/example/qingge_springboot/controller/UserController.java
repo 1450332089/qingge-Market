@@ -4,8 +4,10 @@ package com.example.qingge_springboot.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.example.qingge_springboot.annotation.Authority;
 import com.example.qingge_springboot.common.Constants;
 import com.example.qingge_springboot.common.Result;
+import com.example.qingge_springboot.entity.AuthorityType;
 import com.example.qingge_springboot.entity.User;
 import com.example.qingge_springboot.entity.dto.UserDTO;
 import com.example.qingge_springboot.service.UserService;
@@ -61,7 +63,7 @@ public class UserController {
             return Result.error(Constants.CODE_500,"保存失败");
         }
     }
-
+    @Authority(AuthorityType.requireAuthority)
     @DeleteMapping("/user/{id}")
     public Result deleteById(@PathVariable int id){
         boolean isSuccessful = userService.removeById(id);
@@ -72,6 +74,7 @@ public class UserController {
         }
     }
 
+    @Authority(AuthorityType.requireAuthority)
     @PostMapping("/user/del/batch")
     public Result deleteBatch(@RequestBody List<Integer> ids){
         boolean isSuccessful = userService.removeBatchByIds(ids);

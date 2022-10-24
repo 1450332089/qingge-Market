@@ -27,6 +27,7 @@
 </template>
 
 <script>
+import md5 from 'js-md5'
 export default {
   name: "Login",
   data(){
@@ -40,10 +41,11 @@ export default {
     },
   methods: {
     onSubmit() {
-      if(this.user.username=='' || this.user.password==''){
+      if(this.user.username==='' || this.user.password===''){
         this.$message.error("账号或密码不能为空")
         return false;
       }
+      this.user.password = md5(this.user.password);
       this.request.post("/login",this.user).then(res=>{
         if(res.code==='200'){
           this.$message.success({message: "登陆成功",showClose: true})

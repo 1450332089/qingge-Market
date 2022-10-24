@@ -1,8 +1,10 @@
 package com.example.qingge_springboot.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.example.qingge_springboot.annotation.Authority;
 import com.example.qingge_springboot.common.Constants;
 import com.example.qingge_springboot.common.Result;
+import com.example.qingge_springboot.entity.AuthorityType;
 import com.example.qingge_springboot.entity.Avatar;
 import com.example.qingge_springboot.entity.MyFile;
 import com.example.qingge_springboot.service.AvatarService;
@@ -33,6 +35,7 @@ public class AvatarController {
         avatarService.download(fileName,response);
     }
     //根据文件id删除文件
+    @Authority(AuthorityType.requireAuthority)
     @DeleteMapping("/{id}")
     public Result deleteById(@PathVariable int id){
         int i = avatarService.delete(id);

@@ -2,8 +2,10 @@ package com.example.qingge_springboot.controller;
 
 import cn.hutool.core.util.StrUtil;
 import com.auth0.jwt.JWT;
+import com.example.qingge_springboot.annotation.Authority;
 import com.example.qingge_springboot.common.Constants;
 import com.example.qingge_springboot.common.Result;
+import com.example.qingge_springboot.entity.AuthorityType;
 import com.example.qingge_springboot.service.UserService;
 import com.example.qingge_springboot.entity.Address;
 import com.example.qingge_springboot.service.AddressService;
@@ -18,6 +20,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
+@Authority(AuthorityType.requireLogin)
 @RestController
 @RequestMapping("/api/address")
 public class AddressController {
@@ -38,8 +41,8 @@ public class AddressController {
     查询
     */
     @GetMapping("/{id}")
-    public Result findAllById(@PathVariable Long id) {
-        return Result.success(addressService.findAllById(id));
+    public Result findAllById(@PathVariable Long userId) {
+        return Result.success(addressService.findAllById(userId));
     }
 
     @GetMapping

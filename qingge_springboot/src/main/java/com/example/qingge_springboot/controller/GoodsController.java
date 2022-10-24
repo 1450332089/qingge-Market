@@ -2,8 +2,10 @@ package com.example.qingge_springboot.controller;
 
 import com.auth0.jwt.JWT;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.example.qingge_springboot.annotation.Authority;
 import com.example.qingge_springboot.common.Constants;
 import com.example.qingge_springboot.common.Result;
+import com.example.qingge_springboot.entity.AuthorityType;
 import com.example.qingge_springboot.entity.Goods;
 import com.example.qingge_springboot.entity.Standard;
 import com.example.qingge_springboot.entity.User;
@@ -34,18 +36,21 @@ public class GoodsController {
         return userService.getOne(Wrappers.<User>lambdaQuery().eq(User::getUsername, username));
     }
 
+    @Authority(AuthorityType.requireAuthority)
     @PostMapping
     public Result save(@RequestBody Goods goods) {
 
         return Result.success(goodsService.saveOrUpdateGood(goods));
     }
 
+    @Authority(AuthorityType.requireAuthority)
     @PutMapping
     public Result update(@RequestBody Goods goods) {
         goodsService.updateById(goods);
         return Result.success();
     }
 
+    @Authority(AuthorityType.requireAuthority)
     @DeleteMapping("/{id}")
     public Result delete(@PathVariable Long id) {
         goodsService.deleteGood(id);
@@ -87,7 +92,9 @@ public class GoodsController {
         }
         return Result.success();
     }
+
     //删除商品的规格信息
+    @Authority(AuthorityType.requireAuthority)
     @DeleteMapping("/standard")
     public Result delStandard(@RequestBody Standard standard) {
         boolean delete = standardService.delete(standard);
@@ -99,6 +106,7 @@ public class GoodsController {
     }
 
     //修改商品的推荐字段
+    @Authority(AuthorityType.requireAuthority)
     @GetMapping("/recommend")
     public Result setRecommend(@RequestParam Long id,@RequestParam Boolean isRecommend){
         return Result.success(goodsService.setRecommend(id,isRecommend));

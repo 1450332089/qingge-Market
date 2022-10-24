@@ -1,7 +1,9 @@
 package com.example.qingge_springboot.controller;
 
 import cn.hutool.core.date.DateUtil;
+import com.example.qingge_springboot.annotation.Authority;
 import com.example.qingge_springboot.common.Result;
+import com.example.qingge_springboot.entity.AuthorityType;
 import com.example.qingge_springboot.entity.Cart;
 import com.example.qingge_springboot.service.CartService;
 import org.springframework.web.bind.annotation.*;
@@ -10,6 +12,7 @@ import javax.annotation.Resource;
 import java.util.List;
 import java.util.Map;
 
+@Authority(AuthorityType.requireLogin)
 @RestController
 @RequestMapping("/api/cart")
 public class CartController {

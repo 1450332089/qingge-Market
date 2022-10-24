@@ -2,7 +2,9 @@ package com.example.qingge_springboot.controller;
 
 import com.auth0.jwt.JWT;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.example.qingge_springboot.annotation.Authority;
 import com.example.qingge_springboot.common.Result;
+import com.example.qingge_springboot.entity.AuthorityType;
 import com.example.qingge_springboot.entity.Icon;
 import com.example.qingge_springboot.entity.User;
 import com.example.qingge_springboot.service.IconService;
@@ -47,12 +49,13 @@ public class IconController {
     /*
     保存
     */
+    @Authority(AuthorityType.requireAuthority)
     @PostMapping
     public Result save(@RequestBody Icon icon) {
         iconService.saveOrUpdate(icon);
         return Result.success();
     }
-
+    @Authority(AuthorityType.requireAuthority)
     @PutMapping
     public Result update(@RequestBody Icon icon) {
         iconService.updateById(icon);
@@ -62,6 +65,7 @@ public class IconController {
     /*
     删除
     */
+    @Authority(AuthorityType.requireAuthority)
     @DeleteMapping("/{id}")
     public Result delete(@PathVariable Long id) {
         iconService.removeById(id);

@@ -2,7 +2,9 @@ package com.example.qingge_springboot.controller;
 
 import cn.hutool.core.util.StrUtil;
 import com.auth0.jwt.JWT;
+import com.example.qingge_springboot.annotation.Authority;
 import com.example.qingge_springboot.common.Result;
+import com.example.qingge_springboot.entity.AuthorityType;
 import com.example.qingge_springboot.service.UserService;
 import com.example.qingge_springboot.entity.Category;
 import com.example.qingge_springboot.service.CategoryService;
@@ -45,7 +47,7 @@ public class CategoryController {
         categoryService.saveOrUpdate(category);
         return Result.success();
     }
-
+    @Authority(AuthorityType.requireAuthority)
     @PutMapping
     public Result update(@RequestBody Category category) {
         categoryService.updateById(category);
@@ -55,6 +57,7 @@ public class CategoryController {
     /*
     删除
     */
+    @Authority(AuthorityType.requireAuthority)
     @DeleteMapping("/{id}")
     public Result delete(@PathVariable Long id) {
         categoryService.removeById(id);

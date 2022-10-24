@@ -3,8 +3,10 @@ package com.example.qingge_springboot.controller;
 import cn.hutool.core.util.StrUtil;
 import com.auth0.jwt.JWT;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.example.qingge_springboot.annotation.Authority;
 import com.example.qingge_springboot.common.Constants;
 import com.example.qingge_springboot.common.Result;
+import com.example.qingge_springboot.entity.AuthorityType;
 import com.example.qingge_springboot.service.UserService;
 import com.example.qingge_springboot.entity.Order;
 import com.example.qingge_springboot.service.OrderService;
@@ -20,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-
+@Authority(AuthorityType.requireLogin)
 @RestController
 @RequestMapping("/api/order")
 public class OrderController {
@@ -81,7 +83,8 @@ public class OrderController {
         orderService.payOrder(orderNo);
         return Result.success();
     }
-    //支付订单
+    //发货
+    @Authority(AuthorityType.requireAuthority)
     @GetMapping("/delivery/{orderNo}")
     public Result delivery(@PathVariable String orderNo){
         orderService.delivery(orderNo);

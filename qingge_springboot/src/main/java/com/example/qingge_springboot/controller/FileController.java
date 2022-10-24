@@ -1,8 +1,10 @@
 package com.example.qingge_springboot.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.example.qingge_springboot.annotation.Authority;
 import com.example.qingge_springboot.common.Constants;
 import com.example.qingge_springboot.common.Result;
+import com.example.qingge_springboot.entity.AuthorityType;
 import com.example.qingge_springboot.entity.MyFile;
 import com.example.qingge_springboot.service.FileService;
 import org.springframework.web.bind.annotation.*;
@@ -31,6 +33,7 @@ public class FileController {
         fileService.download(fileName,response);
     }
     //根据文件id删除文件
+    @Authority(AuthorityType.requireAuthority)
     @DeleteMapping("/{id}")
     public Result deleteById(@PathVariable int id){
         int i = fileService.fakeDelete(id);
@@ -41,6 +44,7 @@ public class FileController {
         }
     }
     //批量删除文件
+    @Authority(AuthorityType.requireAuthority)
     @PostMapping("/del/batch")
     public Result deleteBatch(@RequestBody List<Integer> ids){
         for (Integer id : ids) {
@@ -51,6 +55,8 @@ public class FileController {
         }
         return Result.success();
     }
+
+    @Authority(AuthorityType.requireAuthority)
     @GetMapping("/enable")
     public Result changeEnable(@RequestParam int id,@RequestParam boolean enable){
         int i = fileService.changeEnable(id, enable);
