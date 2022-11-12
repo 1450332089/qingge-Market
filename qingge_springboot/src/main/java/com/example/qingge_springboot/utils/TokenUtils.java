@@ -1,20 +1,15 @@
 package com.example.qingge_springboot.utils;
 
 import com.auth0.jwt.JWT;
-import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.example.qingge_springboot.common.Constants;
+import com.example.qingge_springboot.constants.Constants;
 import com.example.qingge_springboot.entity.User;
 import com.example.qingge_springboot.exception.ServiceException;
-import com.example.qingge_springboot.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.Objects;
@@ -22,34 +17,20 @@ import java.util.Objects;
 @Component
 public class TokenUtils {
     private static final long EXPIRE_TIME = 180*60*1000; //过期时间，毫秒
-    @Resource
-    private UserService userService;
-    private static UserService staticUserService;
 
-    @PostConstruct
-    public void setStaticUserService() {
-        staticUserService = userService;
-    }
-
-    public static String genToken(String userId, String password){
+    public static String genToken(String userId, String username){
         Date expireDate = new Date(System.currentTimeMillis()+EXPIRE_TIME);
         String token = JWT.create()
                 .withAudience(userId)
                 .withExpiresAt(expireDate)
-                .sign(Algorithm.HMAC256(password));
+                .sign(Algorithm.HMAC256(username));
         return token;
     }
 
 
     public static User getCurrentUser(){
         try{
-            HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
-            String token = request.getHeader("token");
-            if(StringUtils.hasLength(token)){
-                String userId = JWT.decode(token).getAudience().get(0);
-                return staticUserService.getById(userId);
-            }else
-                throw new ServiceException(Constants.CODE_401,"token失效！");
+            return UserHolder.getUser();
         }catch (Exception e){
             return null;
         }
@@ -71,14 +52,9 @@ public class TokenUtils {
 
     public static boolean validateAuthority(){
         try{
-            HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
-            String token = request.getHeader("token");
-            if(StringUtils.hasLength(token)){
-                String userId = JWT.decode(token).getAudience().get(0);
-                User user = staticUserService.getById(userId);
-                if(user.getRole().equals("admin")){
-                    return true;
-                }
+            User user = getCurrentUser();
+            if(user.getRole().equals("admin")){
+                return true;
             }
         }catch (Exception e){
             return false;

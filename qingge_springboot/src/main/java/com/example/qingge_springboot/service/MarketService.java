@@ -2,8 +2,7 @@ package com.example.qingge_springboot.service;
 
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
-import com.example.qingge_springboot.common.Constants;
-import com.example.qingge_springboot.common.Result;
+import com.example.qingge_springboot.constants.Constants;
 import com.example.qingge_springboot.entity.dto.MessageDTO;
 import com.example.qingge_springboot.entity.market.MarketGood;
 import com.example.qingge_springboot.entity.market.MarketMessage;
@@ -36,10 +35,10 @@ public class MarketService {
 
     public void sendMessage(MarketMessage message) {
         if(message.getUserId()==null){
-            throw new ServiceException(Constants.CODE_402,"用户状态错误");
+            throw new ServiceException(Constants.TOKEN_ERROR,"用户状态错误");
         }
         if(StrUtil.isBlank(message.getMessage())){
-            throw new ServiceException(Constants.CODE_402,"评论为空");
+            throw new ServiceException(Constants.TOKEN_ERROR,"评论为空");
         }
         message.setCreateTime(DateUtil.now());
         marketMapper.sendMessage(message);

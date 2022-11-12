@@ -3,7 +3,7 @@ package com.example.qingge_springboot.service;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.SecureUtil;
-import com.example.qingge_springboot.common.Constants;
+import com.example.qingge_springboot.constants.Constants;
 import com.example.qingge_springboot.entity.Avatar;
 import com.example.qingge_springboot.exception.ServiceException;
 import com.example.qingge_springboot.mapper.AvatarMapper;

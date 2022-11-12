@@ -3,7 +3,7 @@ package com.example.qingge_springboot.controller;
 import com.auth0.jwt.JWT;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.example.qingge_springboot.annotation.Authority;
-import com.example.qingge_springboot.common.Constants;
+import com.example.qingge_springboot.constants.Constants;
 import com.example.qingge_springboot.common.Result;
 import com.example.qingge_springboot.entity.AuthorityType;
 import com.example.qingge_springboot.entity.Goods;

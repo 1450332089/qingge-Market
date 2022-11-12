@@ -1,49 +1,60 @@
 package com.example.qingge_springboot.service;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.example.qingge_springboot.common.Constants;
+import com.example.qingge_springboot.constants.Constants;
+import com.example.qingge_springboot.constants.UserConstants;
+import com.example.qingge_springboot.entity.LoginForm;
 import com.example.qingge_springboot.entity.User;
 import com.example.qingge_springboot.entity.dto.UserDTO;
 import com.example.qingge_springboot.exception.ServiceException;
 import com.example.qingge_springboot.mapper.UserMapper;
 import com.example.qingge_springboot.utils.TokenUtils;
 import org.springframework.beans.BeanUtils;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.io.Serializable;
+import java.util.concurrent.TimeUnit;
+
 
 @Service
 public class UserService extends ServiceImpl<UserMapper,User> {
+    @Resource
+    RedisTemplate<String,User> redisTemplate;
 
-    public UserDTO login(UserDTO dto) {
+    public UserDTO login(LoginForm loginForm) {
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("username",dto.getUsername());
-        queryWrapper.eq("password",dto.getPassword());
+        queryWrapper.eq("username",loginForm.getUsername());
+        queryWrapper.eq("password",loginForm.getPassword());
 
         User user = getOne(queryWrapper);
-        if(user!=null){
-            UserDTO userDTO = new UserDTO();
-            //把查到的user的一些属性赋值给userDTO
-            BeanUtils.copyProperties(user,userDTO,"password");
-            //设置token
-            String token = TokenUtils.genToken(user.getId().toString(), user.getPassword());
-            userDTO.setToken(token);
-            return userDTO;
-        }else{
+        if(user == null) {
             throw new ServiceException(Constants.CODE_403,"用户名或密码错误");
         }
+        String token = TokenUtils.genToken(user.getId().toString(), user.getUsername());
+        //把用户存到redis中
+        redisTemplate.opsForValue().set(UserConstants.USER_TOKEN_KEY +token,user);
+        redisTemplate.expire(UserConstants.USER_TOKEN_KEY +token,UserConstants.USER_TOKEN_TTL, TimeUnit.MINUTES);
+        //把查到的user的一些属性赋值给userDTO
+        UserDTO userDTO = BeanUtil.copyProperties(user,UserDTO.class);
+        //设置token
+        userDTO.setToken(token);
+        return userDTO;
+
     }
 
-    public User register(UserDTO userDTO) {
+    public User register(LoginForm loginForm) {
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("username",userDTO.getUsername());
+        queryWrapper.eq("username",loginForm.getUsername());
         User user = getOne(queryWrapper);
         if(user!=null){
             throw new ServiceException(Constants.CODE_403,"用户名已被使用");
         }else{
             user = new User();
-            BeanUtils.copyProperties(userDTO,user);
+            BeanUtils.copyProperties(loginForm,user);
             user.setNickname("新用户");
             user.setRole("user");
             save(user);

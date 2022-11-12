@@ -35,18 +35,13 @@ request.interceptors.response.use(
             res = res ? JSON.parse(res) : res
         }
         // 发生错误，如token失效，则返回登录
-        if(res.code==='403'){
+        if(res.code==='402'){
             ElementUI.MessageBox({
                 title: '错误',
                 message: res.msg
-            }).then(()=>{
-            })
-            router.push('/login')
-        }else if(res.code==='402'){
-            ElementUI.MessageBox({
-                title: '错误',
-                message: res.msg
-            }).then(r =>{} )
+            }).then(() =>{
+                router.push('/login')
+            } )
         }
         return res;
     },
