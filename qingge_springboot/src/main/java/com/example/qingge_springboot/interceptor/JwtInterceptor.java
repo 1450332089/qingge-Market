@@ -3,24 +3,34 @@ package com.example.qingge_springboot.interceptor;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
-import com.example.qingge_springboot.common.Constants;
+import com.example.qingge_springboot.constants.Constants;
+import com.example.qingge_springboot.constants.RedisConstants;
 import com.example.qingge_springboot.entity.User;
 import com.example.qingge_springboot.exception.ServiceException;
 import com.example.qingge_springboot.service.UserService;
+import com.example.qingge_springboot.utils.UserHolder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.concurrent.TimeUnit;
+
+/*
+第一层拦截器，验证用户token,把redis中的user存到threadlocal
+ */
 @Component
 public class JwtInterceptor implements HandlerInterceptor {
     @Autowired
     private UserService userService;
+    @Resource
+    RedisTemplate<String, User> redisTemplate;
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         String token = request.getHeader("token");
@@ -30,26 +40,23 @@ public class JwtInterceptor implements HandlerInterceptor {
         }
         //验证是否有token
         if(!StringUtils.hasLength(token)){
-            throw  new ServiceException(Constants.CODE_402,"token失效,请重新登陆");
+            throw  new ServiceException(Constants.TOKEN_ERROR,"token失效,请重新登陆");
         }
-        //根据token验证是否有该用户
-        User user = null;
-        try{
-            String userId = JWT.decode(token).getAudience().get(0);
-            user = userService.getById(userId);
-            if(user==null){
-                throw new ServiceException(Constants.CODE_402,"用户不存在，请重新登陆");
-            }
-        }catch (JWTDecodeException e){
-            throw new ServiceException(Constants.CODE_402,"token失效，请重新登陆");
-        }
+        //将redis中的user存到threadlocal
+        User user = redisTemplate.opsForValue().get(RedisConstants.USER_TOKEN_KEY + token);
 
+        if(user == null){
+            throw  new ServiceException(Constants.TOKEN_ERROR,"token失效,请重新登陆");
+        }
+        UserHolder.saveUser(user);
+        //重置过期时间
+        redisTemplate.expire(RedisConstants.USER_TOKEN_KEY +token, RedisConstants.USER_TOKEN_TTL, TimeUnit.MINUTES);
         //验证token
-        JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC256(user.getPassword())).build();
+        JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC256(user.getUsername())).build();
         try {
             jwtVerifier.verify(token);
         }catch (JWTVerificationException e){
-            throw new ServiceException(Constants.CODE_402,"token验证失败，请重新登陆");
+            throw new ServiceException(Constants.TOKEN_ERROR,"token验证失败，请重新登陆");
         }
         return true;
     }

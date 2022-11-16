@@ -3,7 +3,7 @@ package com.example.qingge_springboot.controller;
 import com.auth0.jwt.JWT;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.example.qingge_springboot.annotation.Authority;
-import com.example.qingge_springboot.common.Constants;
+import com.example.qingge_springboot.constants.Constants;
 import com.example.qingge_springboot.common.Result;
 import com.example.qingge_springboot.entity.AuthorityType;
 import com.example.qingge_springboot.entity.Goods;
@@ -39,14 +39,15 @@ public class GoodsController {
     @Authority(AuthorityType.requireAuthority)
     @PostMapping
     public Result save(@RequestBody Goods goods) {
-
+        System.out.println(123);
+        System.out.println(goods);
         return Result.success(goodsService.saveOrUpdateGood(goods));
     }
 
     @Authority(AuthorityType.requireAuthority)
     @PutMapping
     public Result update(@RequestBody Goods goods) {
-        goodsService.updateById(goods);
+        goodsService.update(goods);
         return Result.success();
     }
 
@@ -59,7 +60,7 @@ public class GoodsController {
 
     @GetMapping("/{id}")
     public Result findById(@PathVariable Long id) {
-        return Result.success(goodsService.getById(id));
+        return Result.success(goodsService.getGoodById(id));
     }
 
     //获取商品的规格信息

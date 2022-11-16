@@ -2,14 +2,18 @@ package com.example.qingge_springboot;
 
 import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.DateUtil;
+import com.example.qingge_springboot.entity.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.core.RedisTemplate;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 
 @SpringBootTest
 class QinggeSpringbootApplicationTests {
-
+    @Resource
+    RedisTemplate<String, User> redisTemplate;
     @Test
     void contextLoads() {
         String today = DateUtil.today();
@@ -33,7 +37,8 @@ class QinggeSpringbootApplicationTests {
     }
     @Test
     public void test(){
-
+        User user = redisTemplate.opsForValue().get("user:tokeneyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxIiwiZXhwjoxNjY4MjYwMDA2fQ.Jqrcv0Nig8MOspbX6sHlWPtHH-UmOZEU7fZl8QAR4rQ");
+        System.out.println(user);
     }
 
 }

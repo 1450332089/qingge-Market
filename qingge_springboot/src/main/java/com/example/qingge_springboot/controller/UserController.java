@@ -5,9 +5,10 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.qingge_springboot.annotation.Authority;
-import com.example.qingge_springboot.common.Constants;
+import com.example.qingge_springboot.constants.Constants;
 import com.example.qingge_springboot.common.Result;
 import com.example.qingge_springboot.entity.AuthorityType;
+import com.example.qingge_springboot.entity.LoginForm;
 import com.example.qingge_springboot.entity.User;
 import com.example.qingge_springboot.entity.dto.UserDTO;
 import com.example.qingge_springboot.service.UserService;
@@ -29,13 +30,13 @@ public class UserController {
 
 
     @PostMapping("/login")
-    public Result login(@RequestBody UserDTO userDTO){
-        UserDTO dto = userService.login(userDTO);
+    public Result login(@RequestBody LoginForm loginForm){
+        UserDTO dto = userService.login(loginForm);
         return Result.success(dto);
     }
     @PostMapping("/register")
-    public Result register(@RequestBody UserDTO userDTO){
-        User user = userService.register(userDTO);
+    public Result register(@RequestBody LoginForm loginForm){
+        User user = userService.register(loginForm);
         return Result.success(user);
     }
 

@@ -1,12 +1,10 @@
 package com.example.qingge_springboot.controller;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.example.qingge_springboot.annotation.Authority;
-import com.example.qingge_springboot.common.Constants;
+import com.example.qingge_springboot.constants.Constants;
 import com.example.qingge_springboot.common.Result;
 import com.example.qingge_springboot.entity.AuthorityType;
 import com.example.qingge_springboot.entity.Avatar;
-import com.example.qingge_springboot.entity.MyFile;
 import com.example.qingge_springboot.service.AvatarService;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;

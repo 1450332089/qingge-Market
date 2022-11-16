@@ -17,14 +17,17 @@ public class InterceptorConfig implements WebMvcConfigurer {
     AuthorityInterceptor authorityInterceptor;
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
+        //jwt拦截器
         registry.addInterceptor(jwtInterceptor)
                 .addPathPatterns("/**")
                 .excludePathPatterns("/login","/register","/file/**","/avatar/**","/api/goods/**","/api/icon/**","/api/category/**","/api/market/**","/api/carousel/**")
+                .order(0)
         ;
-
+        //权限校验拦截器
         registry.addInterceptor(authorityInterceptor)
                 .addPathPatterns("/**")
                 .excludePathPatterns()
+                .order(1)
         ;
 
         WebMvcConfigurer.super.addInterceptors(registry);
