@@ -3,6 +3,7 @@ package com.example.qingge_springboot.service;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -14,25 +15,55 @@ import com.example.qingge_springboot.entity.Goods;
 import com.example.qingge_springboot.exception.ServiceException;
 import com.example.qingge_springboot.mapper.GoodsMapper;
 
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import static com.example.qingge_springboot.constants.RedisConstants.GOOD_TOKEN_KEY;
+import static com.example.qingge_springboot.constants.RedisConstants.GOOD_TOKEN_TTL;
 
 @Service
 public class GoodsService extends ServiceImpl<GoodsMapper, Goods> {
 
     @Resource
     private GoodsMapper goodsMapper;
+    @Resource
+    private RedisTemplate<String,Goods> redisTemplate;
 
+    //查询一个商品的信息
+    public Goods getGoodById(Long id) {
+        String redisKey = GOOD_TOKEN_KEY + id;
+        //从redis中查，若有则返回
+        ValueOperations<String, Goods> valueOperations = redisTemplate.opsForValue();
+        Goods redisGood = valueOperations.get(redisKey);
+        if(redisGood!=null){
+            return redisGood;
+        }
+        //若redis中没有则去数据库查
+        LambdaQueryWrapper<Goods> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(Goods::getIsDelete,false);
+        queryWrapper.eq(Goods::getId,id);
+        Goods dbGood = getOne(queryWrapper);
+        if(dbGood!=null){
+            //将商品信息存入redis
+            valueOperations.set(redisKey,dbGood);
+            redisTemplate.expire(redisKey,GOOD_TOKEN_TTL, TimeUnit.MINUTES);
+            return dbGood;
+        }
+        //数据库中没有则返回异常
+        throw new ServiceException(Constants.NO_RESULT,"无结果");
+
+    }
     //查询商品的规格
     public String getStandard(int id){
         List<GoodStandard> standards = goodsMapper.getStandardById(id);
-        System.out.println(standards);
-        System.out.println(JSON.toJSONString(standards));
         if(standards.size()==0){
-            throw new ServiceException(Constants.CODE_510,"无结果");
+            throw new ServiceException(Constants.NO_RESULT,"无结果");
         }
         return JSON.toJSONString(standards);
     }
@@ -67,18 +98,18 @@ public class GoodsService extends ServiceImpl<GoodsMapper, Goods> {
 
     //假删除
     public void deleteGood(Long id) {
+        redisTemplate.delete(GOOD_TOKEN_KEY+id);
         goodsMapper.fakeDelete(id);
     }
     //保存商品信息
     public Long saveOrUpdateGood(Goods goods) {
-        System.out.println("goods"+goods);
+        System.out.println(goods);
         if(goods.getId()==null){
             goodsMapper.insertGood(goods);
         }else{
-
             saveOrUpdate(goods);
+            redisTemplate.delete(GOOD_TOKEN_KEY + goods.getId());
         }
-        System.out.println(goods.getId());
         return goods.getId();
     }
 
@@ -91,5 +122,11 @@ public class GoodsService extends ServiceImpl<GoodsMapper, Goods> {
 
     public List<Goods> getSaleRank(int num) {
         return goodsMapper.getSaleRank(num);
+    }
+
+
+    public void update(Goods goods) {
+        updateById(goods);
+        redisTemplate.delete(GOOD_TOKEN_KEY + goods.getId());
     }
 }

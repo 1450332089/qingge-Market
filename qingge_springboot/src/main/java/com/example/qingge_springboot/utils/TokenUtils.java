@@ -16,13 +16,10 @@ import java.util.Objects;
 
 @Component
 public class TokenUtils {
-    private static final long EXPIRE_TIME = 180*60*1000; //过期时间，毫秒
 
     public static String genToken(String userId, String username){
-        Date expireDate = new Date(System.currentTimeMillis()+EXPIRE_TIME);
         String token = JWT.create()
                 .withAudience(userId)
-                .withExpiresAt(expireDate)
                 .sign(Algorithm.HMAC256(username));
         return token;
     }

@@ -4,7 +4,7 @@ import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.qingge_springboot.constants.Constants;
-import com.example.qingge_springboot.constants.UserConstants;
+import com.example.qingge_springboot.constants.RedisConstants;
 import com.example.qingge_springboot.entity.LoginForm;
 import com.example.qingge_springboot.entity.User;
 import com.example.qingge_springboot.entity.dto.UserDTO;
@@ -36,8 +36,9 @@ public class UserService extends ServiceImpl<UserMapper,User> {
         }
         String token = TokenUtils.genToken(user.getId().toString(), user.getUsername());
         //把用户存到redis中
-        redisTemplate.opsForValue().set(UserConstants.USER_TOKEN_KEY +token,user);
-        redisTemplate.expire(UserConstants.USER_TOKEN_KEY +token,UserConstants.USER_TOKEN_TTL, TimeUnit.MINUTES);
+        redisTemplate.opsForValue().set(RedisConstants.USER_TOKEN_KEY +token,user);
+        //jwt不设置过期时间，只设置redis过期时间。
+        redisTemplate.expire(RedisConstants.USER_TOKEN_KEY +token, RedisConstants.USER_TOKEN_TTL, TimeUnit.MINUTES);
         //把查到的user的一些属性赋值给userDTO
         UserDTO userDTO = BeanUtil.copyProperties(user,UserDTO.class);
         //设置token

@@ -5,7 +5,7 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.example.qingge_springboot.constants.Constants;
-import com.example.qingge_springboot.constants.UserConstants;
+import com.example.qingge_springboot.constants.RedisConstants;
 import com.example.qingge_springboot.entity.User;
 import com.example.qingge_springboot.exception.ServiceException;
 import com.example.qingge_springboot.service.UserService;
@@ -20,6 +20,8 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.concurrent.TimeUnit;
+
 /*
 第一层拦截器，验证用户token,把redis中的user存到threadlocal
  */
@@ -41,12 +43,14 @@ public class JwtInterceptor implements HandlerInterceptor {
             throw  new ServiceException(Constants.TOKEN_ERROR,"token失效,请重新登陆");
         }
         //将redis中的user存到threadlocal
-        User user = redisTemplate.opsForValue().get(UserConstants.USER_TOKEN_KEY + token);
+        User user = redisTemplate.opsForValue().get(RedisConstants.USER_TOKEN_KEY + token);
+
         if(user == null){
             throw  new ServiceException(Constants.TOKEN_ERROR,"token失效,请重新登陆");
         }
         UserHolder.saveUser(user);
-
+        //重置过期时间
+        redisTemplate.expire(RedisConstants.USER_TOKEN_KEY +token, RedisConstants.USER_TOKEN_TTL, TimeUnit.MINUTES);
         //验证token
         JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC256(user.getUsername())).build();
         try {
