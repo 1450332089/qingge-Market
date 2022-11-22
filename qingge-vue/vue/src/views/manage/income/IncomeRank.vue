@@ -1,6 +1,6 @@
 <template >
   <div style="width: 58%;height:100%;margin: 20px auto;background-color: #e7e5e5 ;">
-    <template v-for="(good,index) in goods">
+    <template v-for="(good,index) in good">
       <income-item :index="index+1" :good="good" :categories="categories" style="margin-bottom: 2px"></income-item>
     </template>
   </div>
@@ -13,7 +13,7 @@ export default {
   data(){
     return{
       num: 10,
-      goods: [],
+      good: [],
       categories: [],
     }
   },
@@ -27,9 +27,9 @@ export default {
         this.categories = res.data;
       }
       //获取排行数据
-      this.request.get("/api/goods/rank/",{params:{num: this.num}}).then(res=>{
+      this.request.get("/api/good/rank/",{params:{num: this.num}}).then(res=>{
         if(res.code==='200'){
-          this.goods = res.data;
+          this.good = res.data;
         }
       })
     })

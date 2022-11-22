@@ -10,7 +10,7 @@
 <!--      商品列表-->
       <div style="width: 1300px;margin: 20px auto;">
         <el-row :gutter="20">
-          <el-col :span="6" v-for="good in goods" :key="good.id" style="margin-bottom: 20px ">
+          <el-col :span="6" v-for="good in good" :key="good.id" style="margin-bottom: 20px ">
             <!--            商品格子-->
             <router-link :to="'/marketGood/'+good.id">
               <el-card :body-style="{ padding: '0px',background: '#e3f5f4' }">
@@ -42,7 +42,7 @@ export default {
     return{
       schoolId: '',
       schools:[],
-      goods: []
+      good: []
     }
   },
   created(){
@@ -61,7 +61,7 @@ export default {
     },
     load(){
       this.request.get(url+"/schoolGood/"+this.schoolId).then(res=>{
-        this.goods = res.data;
+        this.good = res.data;
       })
     },
     handleAddGood(){

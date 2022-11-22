@@ -1,83 +1,70 @@
 package com.example.qingge_springboot.controller;
 
-import com.auth0.jwt.JWT;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.example.qingge_springboot.annotation.Authority;
 import com.example.qingge_springboot.constants.Constants;
 import com.example.qingge_springboot.common.Result;
 import com.example.qingge_springboot.entity.AuthorityType;
-import com.example.qingge_springboot.entity.Goods;
+import com.example.qingge_springboot.entity.Good;
 import com.example.qingge_springboot.entity.Standard;
-import com.example.qingge_springboot.entity.User;
-import com.example.qingge_springboot.service.GoodsService;
+import com.example.qingge_springboot.service.GoodService;
 import com.example.qingge_springboot.service.StandardService;
-import com.example.qingge_springboot.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/goods")
-public class GoodsController {
+@RequestMapping("/api/good")
+public class GoodController {
     @Resource
-    private GoodsService goodsService;
-    @Resource
-    private HttpServletRequest request;
-    @Resource
-    private UserService userService;
+    private GoodService goodService;
+
     @Resource
     private StandardService standardService;
 
-    public User getUser() {
-        String token = request.getHeader("token");
-        String username = JWT.decode(token).getAudience().get(0);
-        return userService.getOne(Wrappers.<User>lambdaQuery().eq(User::getUsername, username));
-    }
+
 
     @Authority(AuthorityType.requireAuthority)
     @PostMapping
-    public Result save(@RequestBody Goods goods) {
-        System.out.println(123);
-        System.out.println(goods);
-        return Result.success(goodsService.saveOrUpdateGood(goods));
+    public Result save(@RequestBody Good good) {
+        System.out.println(good);
+        return Result.success(goodService.saveOrUpdateGood(good));
     }
 
     @Authority(AuthorityType.requireAuthority)
     @PutMapping
-    public Result update(@RequestBody Goods goods) {
-        goodsService.update(goods);
+    public Result update(@RequestBody Good good) {
+        goodService.update(good);
         return Result.success();
     }
 
     @Authority(AuthorityType.requireAuthority)
     @DeleteMapping("/{id}")
     public Result delete(@PathVariable Long id) {
-        goodsService.deleteGood(id);
+        goodService.deleteGood(id);
         return Result.success();
     }
 
     @GetMapping("/{id}")
     public Result findById(@PathVariable Long id) {
-        return Result.success(goodsService.getGoodById(id));
+        return Result.success(goodService.getGoodById(id));
     }
 
     //获取商品的规格信息
     @GetMapping("/standard/{id}")
     public Result getStandard(@PathVariable int id) {
-        return Result.success(goodsService.getStandard(id));
+        return Result.success(goodService.getStandard(id));
     }
     //查询推荐商品，即recommend=1
     @GetMapping
     public Result findAll() {
-        List<Goods> list = goodsService.findAll();
-        return Result.success(list);
+
+        return Result.success(goodService.findFrontGoods());
     }
     //查询销量排行
     @GetMapping("/rank")
     public Result getSaleRank(@RequestParam int num){
-        return Result.success(goodsService.getSaleRank(num));
+        return Result.success(goodService.getSaleRank(num));
     }
     //保存商品的规格信息
     @PostMapping("/standard")
@@ -110,7 +97,7 @@ public class GoodsController {
     @Authority(AuthorityType.requireAuthority)
     @GetMapping("/recommend")
     public Result setRecommend(@RequestParam Long id,@RequestParam Boolean isRecommend){
-        return Result.success(goodsService.setRecommend(id,isRecommend));
+        return Result.success(goodService.setRecommend(id,isRecommend));
     }
 
     @GetMapping("/page")
@@ -120,7 +107,16 @@ public class GoodsController {
                             @RequestParam(required = false, defaultValue = "") String searchText,
                             @RequestParam(required = false) Integer categoryId) {
 
-        return Result.success(goodsService.findPage(pageNum,pageSize,searchText,categoryId));
+        return Result.success(goodService.findPage(pageNum,pageSize,searchText,categoryId));
+    }
+    @GetMapping("/fullPage")
+    public Result findFullPage(
+            @RequestParam(required = false, defaultValue = "1") Integer pageNum,
+            @RequestParam(required = false, defaultValue = "10") Integer pageSize,
+            @RequestParam(required = false, defaultValue = "") String searchText,
+            @RequestParam(required = false) Integer categoryId) {
+
+        return Result.success(goodService.findFullPage(pageNum,pageSize,searchText,categoryId));
     }
 
 }

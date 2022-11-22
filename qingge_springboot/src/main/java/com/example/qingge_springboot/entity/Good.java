@@ -7,12 +7,11 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.baomidou.mybatisplus.annotation.TableId;
 
-import java.util.Date;
 import java.math.BigDecimal;
 
 @Data
-@TableName("goods")
-public class Goods extends Model<Goods> {
+@TableName("good")
+public class Good extends Model<Good> {
     /**
       * 主键
       */

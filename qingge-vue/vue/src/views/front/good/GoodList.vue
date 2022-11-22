@@ -5,7 +5,7 @@
     <div class="main-box">
       <div style="width: 1300px;margin: 20px auto;">
         <el-row :gutter="20">
-          <el-col :span="6" v-for="good in goods" :key="good.id" style="margin-bottom: 20px ">
+          <el-col :span="6" v-for="good in good" :key="good.id" style="margin-bottom: 20px ">
 <!--            商品格子-->
             <router-link :to="'goodview/'+good.id">
               <el-card :body-style="{ padding: '0px',background: '#e3f5f4' }">
@@ -49,7 +49,7 @@ export default {
       categoryId : Number,
       //搜索的内容
       searchText: '',
-      goods:[],
+      good:[],
     }
   },
   components:{
@@ -73,7 +73,7 @@ export default {
       this.load();
     },
     load(){
-      this.request.get("/api/goods/page",{
+      this.request.get("/api/good/page",{
         params:{
           pageNum: this.currentPage,
           pageSize: this.pageSize,
@@ -83,8 +83,8 @@ export default {
       }).then(res=>{
         if(res.code==='200'){
           this.total = res.data.total;
-          this.goods = res.data.records;
-          console.log(this.goods)
+          this.good = res.data.records;
+          console.log(this.good)
         }
       })
     },

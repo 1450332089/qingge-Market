@@ -88,8 +88,8 @@ public class UserService extends ServiceImpl<UserMapper,User> {
     @Autowired
     private UserMapper userMapper;
 
-    public List<User> findAll(){
-       return userMapper.findAll();
+    public List<User> findFrontGoods(){
+       return userMapper.findFrontGoods();
     };
     public int searchTotal(String username,String nickname){
         return userMapper.searchTotal(username,nickname);

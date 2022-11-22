@@ -1,5 +1,13 @@
 package com.example.qingge_springboot.entity.dto;
 
+import lombok.Data;
+
+import java.math.BigDecimal;
+
+@Data
 public class GoodDTO {
-    //TODO 把批量查询返回值改为dto
+    private Long id;
+    private String name;
+    private String imgs;
+    private BigDecimal price;
 }

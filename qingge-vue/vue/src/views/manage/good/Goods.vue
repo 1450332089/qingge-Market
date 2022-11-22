@@ -105,7 +105,7 @@
 
 <script>
 import API from '../../../utils/request'
-const url = "/api/goods/"
+const url = "/api/good/"
 
 export default {
   name: "Goods",
@@ -153,7 +153,7 @@ export default {
       })
     },
     load() {
-       API.get(url + "page", {
+       API.get(url + "fullPage", {
           params: {
             pageNum: this.pageNum,
             pageSize: this.pageSize,
@@ -204,8 +204,7 @@ export default {
         this.$refs.upload.submit();
       }else{
         //不上传图片
-        console.log(this.fileList)
-        console.log("未选择图片")
+        console.log(this.entity)
         API.post(url, this.entity).then(res2 => {
           if (res2.code === '200') {
             this.$message({
