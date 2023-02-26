@@ -13,13 +13,16 @@
  ![image](https://user-images.githubusercontent.com/78432919/221390051-ca585c04-8f8e-406e-b375-91b0d1a20962.png)
  
 2.统一的异常处理
+
   自定义了异常类，并通过@ControllerAdvice注解实现了全局异常处理，使用@ExceptionHandler捕捉自定义异常
   
 3.统一的返回结果
+
   自定义返回结果类Result
   ![image](https://user-images.githubusercontent.com/78432919/221390362-07a94cb1-66bc-4e23-aa19-132f406a6b17.png)
   
 4.Redis数据库缓存热点数据
+
   后端配置了RedisTemplate操作redis数据库，将一些热点数据，如用户信息、商品信息存入redis，以此提高查询速度。
   
   后端会先去redis里查询信息，若有则返回，若没有则去mysql中查，查到后存入redis，然后返回。
