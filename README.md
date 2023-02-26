@@ -27,14 +27,16 @@
   ![image](https://user-images.githubusercontent.com/78432919/221390504-1048eee4-43a0-4b69-80af-e20d6154e57b.png)
   
 5.权限管理
+
   1.首先通过token拦截器，在一些controller上验证请求中是否携带token以及token是否合法
   
   2.自定义一个注解@Authority，注解可以加在类上和方法上，限定该类或者方法的请求权限。
   
   3.定义一个拦截器，判断映射方法是否加有该注解。若有注解，则判断用户是否有对应权限。
   
-    ![image](https://user-images.githubusercontent.com/78432919/221390798-f2de7749-1e95-4be2-aecd-24e4ee3c2b71.png)
-    ![image](https://user-images.githubusercontent.com/78432919/221390806-0a0755b2-fe24-4e67-816d-88fe52151d42.png)
+![image](https://user-images.githubusercontent.com/78432919/221390798-f2de7749-1e95-4be2-aecd-24e4ee3c2b71.png)
+    
+![image](https://user-images.githubusercontent.com/78432919/221390806-0a0755b2-fe24-4e67-816d-88fe52151d42.png)
     
 6.防止上传相同文件
 
