@@ -3,6 +3,7 @@ package com.example.qingge_springboot;
 import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.DateUtil;
 import com.example.qingge_springboot.entity.User;
+import com.example.qingge_springboot.service.GoodService;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -41,4 +42,10 @@ class QinggeSpringbootApplicationTests {
         System.out.println(user);
     }
 
+    @Resource
+    GoodService goodService;
+    @Test
+    void good() {
+        System.out.println(goodService.getMinPrice(38l));
+    }
 }

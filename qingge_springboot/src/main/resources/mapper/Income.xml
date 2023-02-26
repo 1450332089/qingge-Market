@@ -7,11 +7,11 @@
         <result property="categoryIncome" column="category_income"></result>
     </resultMap>
     <select id="selectCategoryIncome" resultMap="chartMap">
-        select  category_id,category.name as category_name,SUM(sale_money) as category_income  from goods,category
-        where goods.category_id = category.id GROUP BY category_id
+        select  category_id,category.name as category_name,SUM(sale_money) as category_income  from good,category
+        where good.category_id = category.id GROUP BY category_id
     </select>
     <select id="selectSumIncome" resultType="decimal">
-        select sum(sale_money)  from goods
+        select sum(sale_money)  from good
     </select>
     <select id="getDayIncome" resultType="java.math.BigDecimal">
         SELECT sum(total_price) FROM `t_order` WHERE state != '待付款' AND create_time >= #{thisDay} AND create_time &lt; #{nextDay}

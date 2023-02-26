@@ -78,7 +78,7 @@
 
 <script>
 import API from "@/utils/request";
-const url = "/api/goods"
+const url = "/api/good"
 export default {
   name: "GoodInfo",
   data(){

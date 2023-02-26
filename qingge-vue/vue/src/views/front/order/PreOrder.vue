@@ -92,7 +92,7 @@ export default {
       dialogFormVisible: false,
       good: {},
       realPrice: -1,
-      goods: [],
+      goods:[]
     }
   },
   components:{
@@ -187,7 +187,7 @@ export default {
         })
         return
       }
-      console.log(JSON.stringify(this.goods))
+      console.log(JSON.stringify(this.good))
       // 提交订单
       API.post("/api/order", {
         totalPrice: this.sumPrice,

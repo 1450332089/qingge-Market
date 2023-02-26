@@ -7,7 +7,7 @@
 
     <div class="block" style="width: 1200px ;margin: 10px auto">
 <!--      类别菜单-->
-      <div class="goods-menu">
+      <div class="good-menu">
         <ul v-for="(item,index) in icons" :key="index">
           <li>
             <i class="iconfont" v-html="item.value"></i>
@@ -42,7 +42,7 @@
 
     <div style="width: 1300px;margin: 20px auto;">
       <el-row :gutter="20">
-        <el-col :span="6" v-for="good in goods" :key="good.id" style="margin-bottom: 20px ">
+        <el-col :span="6" v-for="good in good" :key="good.id" style="margin-bottom: 20px ">
           <router-link :to="'goodview/'+good.id">
             <el-card :body-style="{ padding: '0px',background: '#e3f5f4' }">
               <img :src="good.imgs" style="width: 100%;height: 300px">
@@ -69,7 +69,7 @@ export default {
       //轮播图
       carousels: [],
       //推荐商品
-      goods:[],
+      good:[],
 
       //分类icon，每个icon包含id、value、categories对象数组.category：id，name
       icons:[],
@@ -81,9 +81,9 @@ export default {
     search,
   },
   created() {
-      this.request.get("/api/goods").then(res=>{
+      this.request.get("/api/good").then(res=>{
             if(res.code==='200'){
-              this.goods = res.data;
+              this.good = res.data;
             }else {
               this.$message.error(res.msg);
             }
@@ -119,22 +119,22 @@ export default {
   padding: 20px 40px;
   margin: 5px auto;
 }
-.goods-menu{
+.good-menu{
   float: left;
   height: 370px;
   margin-right: 130px;
 }
-.goods-menu li{
+.good-menu li{
   list-style: none;
   overflow: hidden;
   margin-bottom: 35px;
 
 }
-.goods-menu li a,span{
+.good-menu li a,span{
   font-size: 20px;
   color: #6c6969;
 }
-.goods-menu a span:hover{
+.good-menu a span:hover{
   color: #00b7ff;
 }
 

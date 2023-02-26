@@ -141,7 +141,7 @@ export default {
     //初始化商品信息
     // this.good = JSON.parse(this.$route.query.good)
     this.goodId = this.$route.params.goodId;
-    this.request.get("/api/goods/"+this.goodId).then(res=>{
+    this.request.get("/api/good/"+this.goodId).then(res=>{
       if(res.code==='200'){
         this.good = res.data;
         let discount = this.good.discount;
@@ -154,7 +154,7 @@ export default {
       }
     })
     //从服务器获取商品规格信息
-    this.request.get("/api/goods/standard/"+this.goodId).then(res=>{
+    this.request.get("/api/good/standard/"+this.goodId).then(res=>{
       if(res.code==='200'){
         let standards= JSON.parse(res.data)
         this.standards = standards;

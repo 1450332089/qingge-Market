@@ -9,7 +9,7 @@ public interface UserMapper extends BaseMapper<User> {
         以下为引入mybatis-plus之前的操作
 
     @Select("select * from sys_user")
-    List<User> findAll();
+    List<User> findFrontGoods();
     @Insert("insert into sys_user(username,password,nickname,email,phone,address) " +
         "values (#{username},#{password},#{nickname},#{email},#{phone},#{address})")
     int insert(User user);

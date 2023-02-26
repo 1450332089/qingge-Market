@@ -11,7 +11,7 @@ import com.example.qingge_springboot.entity.Order;
 import com.example.qingge_springboot.entity.OrderGoods;
 import com.example.qingge_springboot.entity.OrderItem;
 import com.example.qingge_springboot.exception.ServiceException;
-import com.example.qingge_springboot.mapper.GoodsMapper;
+import com.example.qingge_springboot.mapper.GoodMapper;
 import com.example.qingge_springboot.mapper.OrderGoodsMapper;
 import com.example.qingge_springboot.mapper.OrderMapper;
 import com.example.qingge_springboot.mapper.StandardMapper;
@@ -35,7 +35,7 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> {
     @Resource
     private StandardMapper standardMapper;
     @Resource
-    private GoodsMapper goodsMapper;
+    private GoodMapper goodMapper;
     @Transactional
     public String saveOrder(Order order) {
         order.setUserId(TokenUtils.getCurrentUser().getId());
@@ -82,7 +82,7 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> {
         orderLambdaQueryWrapper.eq(Order::getOrderNo,orderNo);
         Order one = getOne(orderLambdaQueryWrapper);
         BigDecimal totalPrice = one.getTotalPrice();
-        goodsMapper.saleGood(goodId,count,totalPrice);
+        goodMapper.saleGood(goodId,count,totalPrice);
     }
 
     public List<Map<String,Object>> selectByUserId(int userId) {

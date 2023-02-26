@@ -29,8 +29,9 @@ public class UserService extends ServiceImpl<UserMapper,User> {
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("username",loginForm.getUsername());
         queryWrapper.eq("password",loginForm.getPassword());
-
+        System.out.println(loginForm);
         User user = getOne(queryWrapper);
+        System.out.println(user);
         if(user == null) {
             throw new ServiceException(Constants.CODE_403,"用户名或密码错误");
         }
@@ -88,8 +89,8 @@ public class UserService extends ServiceImpl<UserMapper,User> {
     @Autowired
     private UserMapper userMapper;
 
-    public List<User> findAll(){
-       return userMapper.findAll();
+    public List<User> findFrontGoods(){
+       return userMapper.findFrontGoods();
     };
     public int searchTotal(String username,String nickname){
         return userMapper.searchTotal(username,nickname);

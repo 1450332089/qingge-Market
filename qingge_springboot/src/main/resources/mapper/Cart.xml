@@ -16,9 +16,9 @@
     </resultMap>
 
     <select id="selectByUserId" resultMap="cartResultMap">
-        SELECT cart.*,good_standard.price,goods.imgs,`name`,discount,store
-        FROM cart,good_standard,goods
-        WHERE cart.good_id = goods.id AND cart.good_id = good_standard.good_id AND cart.standard = good_standard.`value`
+        SELECT cart.*,good_standard.price,good.imgs,`name`,discount,store
+        FROM cart,good_standard,good
+        WHERE cart.good_id = good.id AND cart.good_id = good_standard.good_id AND cart.standard = good_standard.`value`
               AND cart.user_id = #{userId}
         ORDER BY cart.create_time DESC
 

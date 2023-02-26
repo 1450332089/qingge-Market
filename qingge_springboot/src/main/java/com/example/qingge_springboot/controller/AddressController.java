@@ -22,21 +22,11 @@ import java.util.List;
 public class AddressController {
     @Resource
     private AddressService addressService;
-    @Resource
-    private HttpServletRequest request;
-    @Resource
-    private UserService userService;
-
-    public User getUser() {
-        String token = request.getHeader("token");
-        String username = JWT.decode(token).getAudience().get(0);
-        return userService.getOne(Wrappers.<User>lambdaQuery().eq(User::getUsername, username));
-    }
 
     /*
     查询
     */
-    @GetMapping("/{id}")
+    @GetMapping("/{userId}")
     public Result findAllById(@PathVariable Long userId) {
         return Result.success(addressService.findAllById(userId));
     }

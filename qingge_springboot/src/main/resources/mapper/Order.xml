@@ -11,15 +11,15 @@
         <result property="img" column="imgs"></result>
     </resultMap>
     <select id="selectByUserId" parameterType="int" resultType="java.util.HashMap">
-        SELECT o.*, og.good_id,goods.`name` as good_name, og.count, og.standard, goods.imgs
-        FROM t_order o, order_goods og ,goods
-        WHERE o.id = og.order_id AND o.user_id = #{userId} AND og.good_id = goods.id
+        SELECT o.*, og.good_id,good.`name` as good_name, og.count, og.standard, good.imgs
+        FROM t_order o, order_goods og ,good
+        WHERE o.id = og.order_id AND o.user_id = #{userId} AND og.good_id = good.id
         ORDER BY o.create_time DESC
     </select>
     <select id="selectByOrderNo" parameterType="String" resultMap="goodMap">
-        SELECT  og.good_id,goods.`name` as good_name,  og.standard,gs.price ,goods.discount ,og.count, goods.imgs
-        FROM t_order o, order_goods og ,goods,good_standard gs
-        WHERE o.id = og.order_id AND o.order_no = #{orderNo} AND og.good_id = goods.id
+        SELECT  og.good_id,good.`name` as good_name,  og.standard,gs.price ,good.discount ,og.count, good.imgs
+        FROM t_order o, order_goods og ,good,good_standard gs
+        WHERE o.id = og.order_id AND o.order_no = #{orderNo} AND og.good_id = good.id
           AND gs.good_id = og.good_id AND gs.`value` = standard
     </select>
 </mapper>
