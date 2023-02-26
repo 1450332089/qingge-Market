@@ -24,4 +24,12 @@ public class LoginForm {
         this.username = username;
         this.password = password;
     }
+
+    @Override
+    public String toString() {
+        return "LoginForm{" +
+                "username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                '}';
+    }
 }

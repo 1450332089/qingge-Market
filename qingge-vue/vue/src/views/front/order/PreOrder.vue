@@ -38,7 +38,7 @@
 
 
       <!--        商品确认-->
-      <el-table :data="good" stripe style="width: 100%">
+      <el-table :data="goods" stripe style="width: 100%">
         <el-table-column label="商品图片" width="150">
           <template slot-scope="scope">
             <el-image :src="scope.row.imgs" style="width: 100px; height: 100px;" fit="contain"></el-image>
@@ -92,6 +92,7 @@ export default {
       dialogFormVisible: false,
       good: {},
       realPrice: -1,
+      goods:[]
     }
   },
   components:{
@@ -105,19 +106,19 @@ export default {
     this.good.realPrice = this.$route.query.realPrice
     this.good.num = this.$route.query.num
     this.good.standard = this.$route.query.standard
-    this.good.push(this.good)
+    this.goods.push(this.good)
   },
   computed: {
     sumPrice: function () {
       let sum = 0;
-      this.good.forEach(function (good){
+      this.goods.forEach(function (good){
         sum += good.realPrice * good.num;
       })
       return sum.toFixed(2);
     },
     sumDiscount: function (){
       let sum = 0;
-      this.good.forEach(function (good){
+      this.goods.forEach(function (good){
         sum += (good.realPrice / good.discount -good.realPrice) * good.num;
       })
       return sum.toFixed(2);
@@ -194,7 +195,7 @@ export default {
         linkPhone: address.linkPhone,
         linkAddress: address.linkAddress,
         state: '待付款',
-        good: JSON.stringify(this.good),
+        goods: JSON.stringify(this.goods),
       }).then(res => {
         if (res.code === '200') {
           let orderNo = res.data

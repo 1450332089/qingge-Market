@@ -43,6 +43,7 @@ public class GoodService extends ServiceImpl<GoodMapper, Good> {
         ValueOperations<String, Good> valueOperations = redisTemplate.opsForValue();
         Good redisGood = valueOperations.get(redisKey);
         if(redisGood!=null){
+            redisTemplate.expire(redisKey,GOOD_TOKEN_TTL, TimeUnit.MINUTES);
             return redisGood;
         }
         //若redis中没有则去数据库查

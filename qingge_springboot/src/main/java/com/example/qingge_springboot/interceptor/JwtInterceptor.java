@@ -42,7 +42,7 @@ public class JwtInterceptor implements HandlerInterceptor {
         if(!StringUtils.hasLength(token)){
             throw  new ServiceException(Constants.TOKEN_ERROR,"token失效,请重新登陆");
         }
-        //将redis中的user存到threadlocal
+        //通过token，将redis中的user存到threadlocal（UserHolder）
         User user = redisTemplate.opsForValue().get(RedisConstants.USER_TOKEN_KEY + token);
 
         if(user == null){
