@@ -3,6 +3,7 @@
 基于springboot+vue的电商平台。本人本科毕业设计作品。
 
 后端亮点：
+
 1.使用jwt进行身份验证
 
  首先在登陆时，后端为该用户生成一个token，并发送给用户。用户将信息保存到LocalStorage中，并在以后将token放入请求头中
@@ -20,17 +21,23 @@
   
 4.Redis数据库缓存热点数据
   后端配置了RedisTemplate操作redis数据库，将一些热点数据，如用户信息、商品信息存入redis，以此提高查询速度。
+  
   后端会先去redis里查询信息，若有则返回，若没有则去mysql中查，查到后存入redis，然后返回。
+  
   ![image](https://user-images.githubusercontent.com/78432919/221390504-1048eee4-43a0-4b69-80af-e20d6154e57b.png)
   
 5.权限管理
   1.首先通过token拦截器，在一些controller上验证请求中是否携带token以及token是否合法
+  
   2.自定义一个注解@Authority，注解可以加在类上和方法上，限定该类或者方法的请求权限。
-    定义一个拦截器，判断映射方法是否加有该注解。若有注解，则判断用户是否有对应权限。
+  
+  3.定义一个拦截器，判断映射方法是否加有该注解。若有注解，则判断用户是否有对应权限。
+  
     ![image](https://user-images.githubusercontent.com/78432919/221390798-f2de7749-1e95-4be2-aecd-24e4ee3c2b71.png)
     ![image](https://user-images.githubusercontent.com/78432919/221390806-0a0755b2-fe24-4e67-816d-88fe52151d42.png)
     
 6.防止上传相同文件
+
   用户上传文件，会先判断该文件的md5是否在数据库中已存在，若存在则不接收文件，直接使用已存在文件的url。
 
 界面展示：
@@ -53,6 +60,7 @@
 ![image](https://user-images.githubusercontent.com/78432919/221391001-72759f7d-eb46-41f1-a349-f10d6247bebc.png)
 
 7.后台管理
+
 ![image](https://user-images.githubusercontent.com/78432919/221391018-9f03293c-3b89-406a-8ac1-a0d8f3981faf.png)
 
 8.轮播图管理
