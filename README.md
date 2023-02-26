@@ -1,14 +1,19 @@
 # qingge-Market
 （界面展示在后面）
 基于springboot+vue的电商平台。本人本科毕业设计作品。
+
 后端亮点：
 1.使用jwt进行身份验证
+
  首先在登陆时，后端为该用户生成一个token，并发送给用户。用户将信息保存到LocalStorage中，并在以后将token放入请求头中
+ 
  后端通过拦截器实现：后端收到请求后，会先取出请求头中的token，并根据token查询用户信息，然后把用户信息放入ThreadLocal中,方便之后使用用户信息
+ 
  ![image](https://user-images.githubusercontent.com/78432919/221390051-ca585c04-8f8e-406e-b375-91b0d1a20962.png)
  
 2.统一的异常处理
   自定义了异常类，并通过@ControllerAdvice注解实现了全局异常处理，使用@ExceptionHandler捕捉自定义异常
+  
 3.统一的返回结果
   自定义返回结果类Result
   ![image](https://user-images.githubusercontent.com/78432919/221390362-07a94cb1-66bc-4e23-aa19-132f406a6b17.png)
