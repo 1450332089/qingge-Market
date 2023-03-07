@@ -77,7 +77,7 @@
 ![image](https://user-images.githubusercontent.com/78432919/221391049-b459210a-60b8-4d9d-b596-b4a06a62e5d7.png)
 
 10.订单管理
-![image](https://user-images.githubusercontent.com/78432919/221391062-83e755ab-f5ca-4c8b-96a8-40b8556e2b56.png)
+
 
 11.收入分析
 ![image](https://user-images.githubusercontent.com/78432919/221391070-be53a2a6-5aab-4231-b6a8-6c8169e2a4fc.png)
