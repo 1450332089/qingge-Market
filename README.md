@@ -50,16 +50,16 @@
 ![image](https://user-images.githubusercontent.com/78432919/221390920-fe30f39a-b4c6-4c55-827d-589f47e357ba.png)
 
 2.个人信息
-![image](https://user-images.githubusercontent.com/78432919/222160333-235c19f5-870d-4ed2-8c22-cc70d4441c09.png)
+![image](https://user-images.githubusercontent.com/78432919/231815487-8e349f99-ea3e-46db-80aa-b4ee62197397.png)
 
 3.商品详情
 ![image](https://user-images.githubusercontent.com/78432919/221390949-7a792461-a00e-48ef-a7e9-4abeab4c1e72.png)
 
 4.购买商品
-![image](https://user-images.githubusercontent.com/78432919/222161211-62cba815-d789-48ab-b5c9-8c1489baa176.png)
+![image](https://user-images.githubusercontent.com/78432919/231815664-c171bc07-7265-44b7-b5e7-a02f6d96b7e1.png)
 
 5.购物车
-![image](https://user-images.githubusercontent.com/78432919/221390989-a381c231-d229-428b-b6ee-0fd60b7ce753.png)
+![image](https://user-images.githubusercontent.com/78432919/231815831-4d462f02-0750-43c0-91a7-1734c3bb34f2.png)
 
 6.订单
 ![image](https://user-images.githubusercontent.com/78432919/221391001-72759f7d-eb46-41f1-a349-f10d6247bebc.png)
