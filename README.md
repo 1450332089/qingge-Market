@@ -1,8 +1,9 @@
 # qingge-Market
-（界面展示在后面）
+**（界面展示在后面）**
 基于springboot+vue的电商平台。本人本科毕业设计作品。
+安装说明：1.先安装npm，具体百度一下教程。使用npm运行前端vue项目  2.安装mysql，建一个库叫qingge，运行sql文件导入表。 3.安装redis 4.安装maven、idea等
 
-后端亮点：
+##后端亮点：
 
 1.使用jwt进行身份验证
 
@@ -45,7 +46,7 @@
 
   用户上传文件，会先判断该文件的md5是否在数据库中已存在，若存在则不接收文件，直接使用已存在文件的url。
 
-界面展示：
+##界面展示：
 1.首页
 ![image](https://user-images.githubusercontent.com/78432919/221390920-fe30f39a-b4c6-4c55-827d-589f47e357ba.png)
 
