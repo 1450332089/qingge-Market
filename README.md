@@ -1,6 +1,7 @@
 # qingge-Market
 **（界面展示在后面）**
 基于springboot+vue的电商平台。本人本科毕业设计作品。
+
 安装说明：1.先安装npm，具体百度一下教程。使用npm运行前端vue项目  2.安装mysql，建一个库叫qingge，运行sql文件导入表。 3.安装redis 4.安装maven、idea等
 
 ##后端亮点：
